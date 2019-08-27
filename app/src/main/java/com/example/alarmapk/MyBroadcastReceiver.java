@@ -12,6 +12,7 @@ import android.os.Vibrator;
 import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.DialogFragment;
 
 public class MyBroadcastReceiver extends BroadcastReceiver {
 
