@@ -13,11 +13,17 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -51,10 +57,25 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     public void addAlarmActivity(View view) {
+        final Animation animate = AnimationUtils.loadAnimation(MainActivity.this,
+
+                R.anim.rotejt);
+        animate.setDuration(500);
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addAlarm.startAnimation(animate);
+
+            }
+        }, 500);
         DialogFragment timePicker = new TimePickerFragment();
+
         timePicker.show(getSupportFragmentManager(), "time picker");
         
     }
+
 
     //SWITCH BUTTON ZA GASNJENJE VEC NAPRAVLJENOG ALARMA
     @SuppressLint("ResourceType")
@@ -80,10 +101,11 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
     }
 
     //ADD ALARM ON LAYOUT
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void addAlarmOnMainPageUI(Calendar c){
         final Switch textView = new Switch(this);
-        String timeText = "Alarm set for: ";
-        timeText += DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+
+        String timeText = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
         textView.setText(timeText);
         textView.setTextSize(30.0f);
         textView.setChecked(true);
@@ -95,7 +117,21 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
                 switchButton(textView);
             }
         });
+        textView.setOnLongClickListener(new View.OnLongClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public boolean onLongClick(View view)
+            {
+                //DROP DOWN MENU ZA DELETE registerForContextMenu
+            return true;
+            }
+
+        });
         textView.setId(idOfAlarm);
+        textView.setTextColor(Color.parseColor("#00897B"));
+        textView.getThumbDrawable().setColorFilter(Color.parseColor("#49B8B5"),PorterDuff.Mode.MULTIPLY);
+        textView.getTrackDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
+        textView.setPadding(0,0,0,100);
         scrolllista.addView(textView);
     }
 

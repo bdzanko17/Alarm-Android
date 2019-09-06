@@ -17,7 +17,12 @@ import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 
 public class TimePickerFragment extends DialogFragment  {
-
+    @Override
+    public void onActivityCreated(Bundle arg0) {
+        super.onActivityCreated(arg0);
+        getDialog().getWindow()
+                .getAttributes().windowAnimations = R.style.DialogAnimation;
+    }
 
     @NonNull
     @Override
@@ -30,12 +35,12 @@ public class TimePickerFragment extends DialogFragment  {
 
 
 
-        a.setButton(DialogInterface.BUTTON_NEUTRAL, "P", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Your code
-            }
-        });
+//        a.setButton(DialogInterface.BUTTON_NEUTRAL, "P", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                //Your code
+//            }
+//        });
 
 
 
