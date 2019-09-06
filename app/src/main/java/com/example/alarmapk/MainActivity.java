@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
 
         mapOfIdAndTimeOfAlarm.put(idOfAlarm,c.getTimeInMillis());
+
     }
 
 

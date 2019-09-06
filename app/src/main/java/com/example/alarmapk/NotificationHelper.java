@@ -48,8 +48,8 @@ class NotificationHelper extends ContextWrapper {
             return new NotificationCompat.Builder(getApplicationContext(), channelID)
                     .setContentTitle("Alarm!")
                     .setContentText("Your AlarmManager is working.")
-                    .setSmallIcon(R.drawable.ic_launcher_background).setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setCategory(NotificationCompat.CATEGORY_ALARM).addAction(R.drawable.ic_launcher_background, "TURN OFF",
+                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .addAction(R.drawable.ic_launcher_background, "TURN OFF",
                             snoozePendingIntent);
         }
 

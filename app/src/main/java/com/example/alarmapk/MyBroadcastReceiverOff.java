@@ -1,5 +1,6 @@
 package com.example.alarmapk;
 
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,13 @@ public class MyBroadcastReceiverOff extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         MyBroadcastReceiver.r.stop();
+
+
+
+
+
+
+
 
 
     }
