@@ -50,7 +50,9 @@ public class TimePickerFragment extends DialogFragment {
     @Override
     public void onCancel(DialogInterface dialogInterface) {
         MainActivity.getAddAlarm().clearAnimation();
+        System.out.println("XD");
     }
+
 
     @Override
     public void onDismiss(DialogInterface dialog) {
