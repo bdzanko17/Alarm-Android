@@ -61,11 +61,7 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
             alarmIntent.setClass(context, AlarmOnLockScreen.class);
             alarmIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(alarmIntent);
-
-
-
-
-
+            
         }
 
 

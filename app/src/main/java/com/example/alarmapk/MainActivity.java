@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.DialogFragment;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -29,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -39,60 +41,64 @@ import static androidx.fragment.app.DialogFragment.STYLE_NO_TITLE;
 
 public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
-    Button settingButton, addAlarm;
+   static Button settingButton, addAlarm;
     LinearLayout scrolllista;
     ConstraintLayout coni;
     static int idOfAlarm;
     static Context cont;
-    HashMap<Integer,Long> mapOfIdAndTimeOfAlarm;
+    HashMap<Integer, Long> mapOfIdAndTimeOfAlarm;
 
+    public static Button getAddAlarm() {
+        return addAlarm;
+    }
 
+    public static void setAddAlarm(Button addAlarm) {
+        MainActivity.addAlarm = addAlarm;
+    }
 
     //onClick method from main to setting acitivity//
     public void settingActivity(View view) {
         Intent intent = new Intent(MainActivity.this, Settings.class);
         startActivity(intent);
     }
+
     //onClick method from main to addAlarm activity//
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     public void addAlarmActivity(View view) {
         final Animation animate = AnimationUtils.loadAnimation(MainActivity.this,
-
                 R.anim.rotejt);
         animate.setDuration(500);
+
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 addAlarm.startAnimation(animate);
-
             }
-        }, 500);
+        }, 200);
         DialogFragment timePicker = new TimePickerFragment();
-
         timePicker.show(getSupportFragmentManager(), "time picker");
-        
+
     }
 
 
     //SWITCH BUTTON ZA GASNJENJE VEC NAPRAVLJENOG ALARMA
     @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void switchButton(Switch view){
+    public void switchButton(Switch view) {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, MyBroadcastReceiver.class);
-        if(view.isChecked()){
+        if (view.isChecked()) {
 
             //GET TIME OF ALARM BY HIS ID
-            long timeOfAlarmById=mapOfIdAndTimeOfAlarm.get(view.getId());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),view.getId(), intent,PendingIntent.FLAG_CANCEL_CURRENT);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP,timeOfAlarmById , pendingIntent);
+            long timeOfAlarmById = mapOfIdAndTimeOfAlarm.get(view.getId());
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), view.getId(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeOfAlarmById, pendingIntent);
 
-        }
-        else {
+        } else {
             PendingIntent alarmIntent = PendingIntent.getBroadcast(getApplicationContext(), view.getId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.cancel(alarmIntent);
             alarmIntent.cancel();
@@ -102,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
     //ADD ALARM ON LAYOUT
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void addAlarmOnMainPageUI(Calendar c){
+    public void addAlarmOnMainPageUI(Calendar c) {
         final Switch textView = new Switch(this);
 
         String timeText = DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
@@ -112,26 +118,24 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         textView.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 switchButton(textView);
             }
         });
-        textView.setOnLongClickListener(new View.OnLongClickListener(){
+        textView.setOnLongClickListener(new View.OnLongClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
-            public boolean onLongClick(View view)
-            {
+            public boolean onLongClick(View view) {
                 //DROP DOWN MENU ZA DELETE registerForContextMenu
-            return true;
+                return true;
             }
 
         });
         textView.setId(idOfAlarm);
         textView.setTextColor(Color.parseColor("#00897B"));
-        textView.getThumbDrawable().setColorFilter(Color.parseColor("#49B8B5"),PorterDuff.Mode.MULTIPLY);
+        textView.getThumbDrawable().setColorFilter(Color.parseColor("#49B8B5"), PorterDuff.Mode.MULTIPLY);
         textView.getTrackDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.MULTIPLY);
-        textView.setPadding(0,0,0,100);
+        textView.setPadding(0, 0, 0, 100);
         scrolllista.addView(textView);
     }
 
@@ -143,10 +147,10 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
         settingButton = findViewById(R.id.settingsButton);
         addAlarm = findViewById(R.id.AlarmButton);
-        scrolllista=findViewById(R.id.linearlay);
-        coni=findViewById(R.id.con);
-        mapOfIdAndTimeOfAlarm= new HashMap<>();
-        cont= this;
+        scrolllista = findViewById(R.id.linearlay);
+        coni = findViewById(R.id.con);
+        mapOfIdAndTimeOfAlarm = new HashMap<>();
+        cont = this;
 
     }
 
@@ -163,8 +167,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         //ADD ALARM ON MAIN PAGE
         addAlarmOnMainPageUI(c);
         idOfAlarm++;
+        addAlarm.clearAnimation();
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void startAlarm(Calendar c) {
@@ -178,16 +182,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
 
-
-        mapOfIdAndTimeOfAlarm.put(idOfAlarm,c.getTimeInMillis());
+        mapOfIdAndTimeOfAlarm.put(idOfAlarm, c.getTimeInMillis());
 
     }
-
-
-
-
-
-
 
 
 
