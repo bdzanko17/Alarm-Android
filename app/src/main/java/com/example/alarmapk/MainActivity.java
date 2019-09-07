@@ -41,7 +41,7 @@ import static androidx.fragment.app.DialogFragment.STYLE_NO_TITLE;
 
 public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
 
-   static Button settingButton, addAlarm;
+    static Button settingButton, addAlarm;
     LinearLayout scrolllista;
     ConstraintLayout coni;
     static int idOfAlarm;
@@ -183,9 +183,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
 
         mapOfIdAndTimeOfAlarm.put(idOfAlarm, c.getTimeInMillis());
-
     }
-
 
 
 }
