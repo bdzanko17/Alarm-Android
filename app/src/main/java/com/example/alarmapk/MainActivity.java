@@ -8,11 +8,9 @@ import androidx.fragment.app.DialogFragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -20,40 +18,33 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
-
-import static android.app.AlertDialog.THEME_DEVICE_DEFAULT_DARK;
-import static androidx.fragment.app.DialogFragment.STYLE_NO_TITLE;
 
 public class MainActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
-
-    static Button settingButton, addAlarm;
+    public static Activity instance = null;
+    Button settingButton, addAlarm;
     LinearLayout scrolllista;
     ConstraintLayout coni;
     static int idOfAlarm;
     static Context cont;
     HashMap<Integer, Long> mapOfIdAndTimeOfAlarm;
 
-    public static Button getAddAlarm() {
+    public Button getAddAlarm() {
         return addAlarm;
     }
 
-    public static void setAddAlarm(Button addAlarm) {
-        MainActivity.addAlarm = addAlarm;
+
+    public void setAddAlarm(Button addAlarm) {
+        this.addAlarm = addAlarm;
     }
 
     //onClick method from main to setting acitivity//
@@ -62,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         startActivity(intent);
     }
 
-    //onClick method from main to addAlarm activity//
+
+    //onClick method from main to addAlarm instance//
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("WrongConstant")
     public void addAlarmActivity(View view) {
@@ -151,8 +143,9 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         coni = findViewById(R.id.con);
         mapOfIdAndTimeOfAlarm = new HashMap<>();
         cont = this;
-
+        instance = this;
     }
+
 
     //GETTING TIME FROM TIMEPICKER
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -185,5 +178,7 @@ public class MainActivity extends AppCompatActivity implements TimePickerDialog.
         mapOfIdAndTimeOfAlarm.put(idOfAlarm, c.getTimeInMillis());
     }
 
-
+    public static Activity getInstance() {
+        return instance;
+    }
 }
