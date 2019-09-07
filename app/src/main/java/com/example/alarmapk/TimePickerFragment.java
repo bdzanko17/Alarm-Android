@@ -42,6 +42,7 @@ public class TimePickerFragment extends DialogFragment {
     public void onCancel(DialogInterface dialogInterface) {
         MainActivity activity = (MainActivity) MainActivity.getInstance();
         activity.getAddAlarm().clearAnimation();
+
     }
 
 
